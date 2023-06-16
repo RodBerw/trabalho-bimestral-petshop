@@ -28,27 +28,25 @@ export default function Card() {
   function handleFiltroChange(event) {
     console.log(filmes);
     console.log(event.target.value);
-    const ordenado = [...filmes]
+    const ordenado = [...filmes];
     if (event.target.value == "ano") {
       setFilmes(
         ordenado.sort(function (a, b) {
-        return(a.ano - b.ano)
-      })
-      )
-    }
-    else if(event.target.value == "titulo"){
-      setFilmes(
-        ordenado.sort(function(a,b){
-        return (a.titulo.localeCompare(b.titulo));
-      })
-      )
-    }
-    else if(event.target.value == 'nota'){
-      setFilmes(
-        ordenado.sort(function(a,b){
-          return (a.nota - b.nota)
+          return a.ano - b.ano;
         })
-      )
+      );
+    } else if (event.target.value == "titulo") {
+      setFilmes(
+        ordenado.sort(function (a, b) {
+          return a.titulo.localeCompare(b.titulo);
+        })
+      );
+    } else if (event.target.value == "nota") {
+      setFilmes(
+        ordenado.sort(function (a, b) {
+          return a.nota - b.nota;
+        })
+      );
     }
     console.log(filmes);
   }
@@ -64,7 +62,7 @@ export default function Card() {
       })
     );
   }
-  console.log('----', filmes);
+  console.log("----", filmes);
 
   return (
     <div className="container text-center">
@@ -83,6 +81,7 @@ export default function Card() {
           <option value="nota">Nota</option>
         </select>
       </div>
+      <h1>Categoria</h1>
       <div className="row">
         {filmes.map((filme, i) => (
           <div className="col" key={i}>

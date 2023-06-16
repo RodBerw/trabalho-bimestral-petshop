@@ -8,6 +8,7 @@ function Home() {
       <Title title={"Catálogo de Filmes"} text={"Filmes Disponíveis"} />
       {/* <Title title=""/> */}
       <Card />
+      <Card />
     </div>
   );
 }
