@@ -10,7 +10,6 @@ function Assitido({ javisto }) {
 }
 
 export default function Card({searchValue}) {
-  const [searchValueFinal, setSearchValueFinal] = useState(searchValue);
   const [filmes, setFilmes] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
 
@@ -27,7 +26,7 @@ export default function Card({searchValue}) {
         return filme.titulo.toLowerCase().includes(searchValue.toLowerCase());
          })
     )
-    //ARRUMAR ESSA PARTE
+
   }, [searchValue]);
 
   useEffect(() => {
@@ -43,7 +42,7 @@ export default function Card({searchValue}) {
   function handleFiltroChange(event) {
     console.log(filmes);
     console.log(event.target.value);
-    const ordenado = [...filmes];
+    const ordenado = [...filteredMovies];
     if (event.target.value == "ano") {
       setFilteredMovies(
         ordenado.sort(function (a, b) {
