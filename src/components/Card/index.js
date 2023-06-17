@@ -9,17 +9,32 @@ function Assitido({ javisto }) {
   return <p className="item">Não assistido</p>;
 }
 
-export default function Card() {
+export default function Card({searchValue}) {
+  const [searchValueFinal, setSearchValueFinal] = useState(searchValue);
   const [filmes, setFilmes] = useState([]);
-  const [filmesFixed, setFilmesFixed] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
 
   useEffect(() => {
     fetch("https://my-json-server.typicode.com/marycamila184/movies/movies")
       .then((response) => response.json())
       .then((data) => setFilmes(data))
-      .then((data) => setFilmesFixed(data))
       .catch((err) => console.error(err));
   }, []);
+
+  useEffect(() => {
+    setFilteredMovies(
+      filmes.filter((filme) => {
+        return filme.titulo.toLowerCase().includes(searchValue.toLowerCase());
+         })
+    )
+    //ARRUMAR ESSA PARTE
+  }, [searchValue]);
+
+  useEffect(() => {
+    if(filteredMovies.length == 0){
+      setFilteredMovies(filmes);
+    }
+  }, [filmes])
 
   if (!filmes) {
     return <p>Carregando...</p>;
@@ -30,19 +45,19 @@ export default function Card() {
     console.log(event.target.value);
     const ordenado = [...filmes];
     if (event.target.value == "ano") {
-      setFilmes(
+      setFilteredMovies(
         ordenado.sort(function (a, b) {
           return a.ano - b.ano;
         })
       );
     } else if (event.target.value == "titulo") {
-      setFilmes(
+      setFilteredMovies(
         ordenado.sort(function (a, b) {
           return a.titulo.localeCompare(b.titulo);
         })
       );
     } else if (event.target.value == "nota") {
-      setFilmes(
+      setFilteredMovies(
         ordenado.sort(function (a, b) {
           return a.nota - b.nota;
         })
@@ -51,28 +66,9 @@ export default function Card() {
     console.log(filmes);
   }
 
-  function handleSearchChange(event) {
-    setFilmesFixed(filmes);
-    if (
-      filmes.forEach(function (filme, index, object) {
-        if (!filme.titulo.includes(event.target.value)) {
-          console.log(filme);
-          object.splice(index, 1);
-        }
-      })
-    );
-  }
-  console.log("----", filmes);
 
   return (
     <div className="container text-center">
-      <div className="search">
-        <input
-          type="text"
-          placeholder="Pesquisar..."
-          onChange={handleSearchChange}
-        ></input>
-      </div>
       <div className="filtrarPor">
         <label>Filtrar por:</label>
         <select name="filtro" id="filtro" onChange={handleFiltroChange}>
@@ -83,7 +79,7 @@ export default function Card() {
       </div>
       <h1>Categoria</h1>
       <div className="row">
-        {filmes.map((filme, i) => (
+        {filteredMovies.map((filme, i) => (
           <div className="col" key={i}>
             <div className="card">
               <img
