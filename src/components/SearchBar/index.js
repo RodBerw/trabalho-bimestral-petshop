@@ -1,10 +1,13 @@
 import Card from "../Card";
+import { useState } from "react";
+import "./searchBar.css";
 
 
 export default function SearchBar() {
 
+    const [busca, setbusca] = useState([]);
     function handleSearchValue(event){
-        <Card searchValue={event.target.value} />
+        setbusca(event.target.value) 
     }
 
     return (
@@ -17,9 +20,9 @@ export default function SearchBar() {
             />
         </div>
 
-        <Card/>
-        <Card/>
-        <Card/>
+        <Card searchValue={busca}/>
+        <Card searchValue={busca}/>
+        <Card searchValue={busca}/>
     </div>
     );
 }
