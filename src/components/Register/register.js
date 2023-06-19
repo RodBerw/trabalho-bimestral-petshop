@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import "./register.css";
+import "../../services/api"
 
 export default function Register() {
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
   const [endereco, setEndereco] = useState("");
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
   const [nomeCartao, setNomeCartao] = useState("");
   const [numeroCartao, setNumeroCartao] = useState("");
   const [cvc, setCvc] = useState("");
   const [plano, setPlano] = useState("");
-
   const [numeroCartaoPassou, setNumeroCartaoPassou] = useState(0);
   const [cvcPassou, setCvcPassou] = useState(0);
+
+  
 
   function handleNomeChange(event) {
     setNome(event.target.value);
@@ -52,6 +56,14 @@ export default function Register() {
     console.log(plano);
   }
 
+  function handleEmailChange(event) {
+    setEmail(event.target.value);
+  }
+
+  function handleSenhaChange(event) {
+    setSenha(event.target.value);
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
     // enviar dados de cadastro para o servidor aqui
@@ -59,6 +71,30 @@ export default function Register() {
     Endereço: ${endereco}, Plano: ${plano}, Nome do Cartão: ${nomeCartao},
     Número do Cartão: ${numeroCartao}, CVC: ${cvc}`);
   }
+
+  const bodyParam = {
+    nome: nome,
+    telefone: telefone,
+    email: email,
+    senha: senha
+}
+
+  api.post('/clientes', bodyParam)
+            .then((response) => {
+                console.log(response.data)
+                alert(" O usuario " + response.data.codigo + " foi criado com sucesso!")
+            })
+            .catch((err) => {
+                console.error(err)
+                alert(" Ocorreu um erro! Veja no console ..")
+            })
+            .finally(() => {
+                setNome("")
+                setTelefone("")
+                setEmail("")
+                setSenha("")
+            })
+    
 
   return (
     <div className="form-custom">
